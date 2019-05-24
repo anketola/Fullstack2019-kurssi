@@ -10,6 +10,15 @@ const Button = ({handleClick, text}) => (
 )
 
 const Statistics = ({good, neutral, bad, total, average, positive}) => {
+  if (total === 0) {
+    return (
+      <div>
+        <Header title="Statistiikka" /> 
+        Palautetta ei ole vielä annettu.
+      </div>
+    )    
+  }
+
   return (
     <div>  
       <Header title="Statistiikka" />  
