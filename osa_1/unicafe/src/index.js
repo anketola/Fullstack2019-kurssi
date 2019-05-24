@@ -9,6 +9,14 @@ const Button = ({handleClick, text}) => (
   </button> 
 )
 
+const Statistic = ({ text, value}) => {
+  return (
+    <>
+      {text}: {value}<br />
+    </>
+  )
+}
+
 const Statistics = ({good, neutral, bad, total, average, positive}) => {
   if (total === 0) {
     return (
@@ -22,12 +30,12 @@ const Statistics = ({good, neutral, bad, total, average, positive}) => {
   return (
     <div>  
       <Header title="Statistiikka" />  
-      Hyvä: {good}<br />
-      Neutraali: {neutral}<br />
-      Huono: {bad}<br />
-      Yhteensä: {total}<br />
-      Keskiarvo: {average}<br />
-      Positiivisia: {positive} %<br />
+      <Statistic text="Hyvä" value={good} />
+      <Statistic text="Neutraali" value={neutral} />
+      <Statistic text="Huono" value={bad} />
+      <Statistic text="Yhteensä" value={total} />
+      <Statistic text="Keskiarvo" value={average} />
+      <Statistic text="Positiivisia" value={positive} />
     </div>
   )    
 }
@@ -41,7 +49,7 @@ const App = () => {
 
   const total = good + neutral + bad
   const average = (good - bad) / total
-  const positive = good / total * 100
+  const positive = (good / total * 100).toString() + ' %'
 
   const handleGoodClick = () => {
     setGood(good + 1)
