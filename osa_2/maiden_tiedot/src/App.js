@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
-const CountryInfo = ({ countries }) => {
-  if (countries.length > 10) {
+const CountryInfo = ({ countries, filter, setSearchFilter }) => {
+  if (filter === '') {
+    return (
+      <p>No search filter given</p>
+    )
+  } else if (countries.length > 10) {
     return (
       <p>Too many matches, please specify another filter</p>
     )
@@ -10,11 +14,21 @@ const CountryInfo = ({ countries }) => {
     return (
       <Country country={countries[0]} />
     )
+  } else if (countries.lenght === 0) {
+    return (
+      <p>No matches found with the search filter</p>
+    )
   } else {
     return (
-      <ul>
-        {countries.map(country => <li key={country.name}> {country.name} </li>)}
-      </ul>
+      <div>
+        {countries.map(country =>
+          <div key={country.name}>
+          {country.name}
+          <button onClick={() => setSearchFilter(country.name)}>
+          Show
+          </button>
+          </div>)}
+      </div>
     )
   }
 }
@@ -65,7 +79,7 @@ const App = () => {
   return (
     <div>
       find countries <SearchInput value={searchFilter} searchHandler={handleChangeSearch} />
-      <CountryInfo countries={countriesToShow} />
+      <CountryInfo countries={countriesToShow} filter={searchFilter} setSearchFilter={setSearchFilter}/>
     </div>
   )
 }
