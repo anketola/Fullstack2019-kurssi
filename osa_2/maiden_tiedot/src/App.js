@@ -44,6 +44,7 @@ const Weather = ({ city, weather, setWeather}) => {
   
   return (
     <>
+      <h2>Weather in {city}</h2>
       <p><strong>temperature:</strong><div>{weather.temp_c} Celsius</div></p>
       { weather.condition && <img src={weather.condition.icon} alt="condition" /> }
       <p><strong>wind:</strong><div>{weather.wind_kph} kph direction {weather.wind_dir} </div></p>
