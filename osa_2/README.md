@@ -7,13 +7,13 @@
 * [x] Tehtävä 2.5: erillinen moduuli
 * [x] Tehtävä 2.6: puhelinluettelo step1
 * [x] Tehtävä 2.7: puhelinluettelo step2
-* [ ] Tehtävä 2.8: puhelinluettelo step3
-* [ ] Tehtävä 2.9: puhelinluettelo step4
-* [ ] Tehtävä 2.10: puhelinluettelo step5
-* [ ] Tehtävä 2.11: puhelinluettelo step6
-* [ ] Tehtävä 2.12: maiden tiedot, step1
-* [ ] Tehtävä 2.13: maiden tiedot, step2
-* [ ] Tehtävä 2.14: maiden tiedot, step3
+* [x] Tehtävä 2.8: puhelinluettelo step3
+* [x] Tehtävä 2.9: puhelinluettelo step4
+* [x] Tehtävä 2.10: puhelinluettelo step5
+* [x] Tehtävä 2.11: puhelinluettelo step6
+* [x] Tehtävä 2.12: maiden tiedot, step1
+* [x] Tehtävä 2.13: maiden tiedot, step2
+* [x] Tehtävä 2.14: maiden tiedot, step3
 * [ ] Tehtävä 2.15: puhelinluettelo step7
 * [ ] Tehtävä 2.16: puhelinluettelo step8
 * [ ] Tehtävä 2.17: puhelinluettelo step9
