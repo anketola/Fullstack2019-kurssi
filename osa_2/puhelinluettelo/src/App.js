@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const FilterField = ({value, handler }) => {
   return (
@@ -70,6 +71,14 @@ const App = () => {
       setNewNumber('')
     }
   }
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   const peopleToShow = filter === '' ? 
     persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
