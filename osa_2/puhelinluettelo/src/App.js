@@ -63,12 +63,24 @@ const Notification = ({ message }) => {
   )
 }
 
+const ErrorMessage = ({ error }) => {
+  if (error === null) {
+    return null
+  }
+  return (
+    <div className='error'>
+      {error}
+    </div>
+  )
+}
+
 const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
   const [ message, setMessage ] = useState(null)
+  const [ error, setError ] = useState(null)
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -85,10 +97,17 @@ const App = () => {
             setPersons(persons.map(personlist => (personlist.id !== oldPerson.id ? personlist : response)))
             setNewName('')
             setNewNumber('')
-            setMessage(`Muutettiin henkilön ${newName} numero`)
+            setMessage(`Changed the number for person ${newName}`)
             setTimeout(() => {
               setMessage(null)
             }, 5000)
+          })
+          .catch(error => {
+            setError(`Information on ${newName} has already been removed from the server`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+            setPersons(persons.filter(person => person.name !== newName));
           })
         }
     } else {
@@ -98,7 +117,7 @@ const App = () => {
           setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
-          setMessage(`Lisättiin henkilö ${newName}`)
+          setMessage(`Added person ${newName}`)
             setTimeout(() => {
               setMessage(null)
             }, 5000)
@@ -121,10 +140,17 @@ const App = () => {
       .deletePerson(id)
       .then(response => {
         setPersons(persons.filter(person => person.id !== id))
-        setMessage(`Poistettiin henkilö ${removeName.name}`)
+        setMessage(`Removed person ${removeName.name}`)
             setTimeout(() => {
               setMessage(null)
             }, 5000)
+      })
+      .catch(error => {
+        setError(`Person ${removeName.name} has already been removed from the server`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+        setPersons(persons.filter(person => person.name !== removeName.name));
       })
     }
   }
@@ -148,6 +174,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification message={message} />
+      <ErrorMessage error={error} />
       <FilterField value={filter} handler={handleChangeFilter} />
       <h3>add a new</h3>
       <PersonForm onSubmit={addPerson} personValue={newName} numberValue={newNumber} personHandler={handleChangePerson} numberHandler={handleChangeNumber} />
