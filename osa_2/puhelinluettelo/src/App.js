@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import personsService from './services/persons'
+import './index.css'
 
 const FilterField = ({value, handler }) => {
   return (
@@ -51,12 +52,24 @@ const Person = ({ person, deleteFunction }) => {
   )
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className='notification'>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
- 
+  const [ message, setMessage ] = useState(null)
+
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -72,6 +85,10 @@ const App = () => {
             setPersons(persons.map(personlist => (personlist.id !== oldPerson.id ? personlist : response)))
             setNewName('')
             setNewNumber('')
+            setMessage(`Muutettiin henkilön ${newName} numero`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
         }
     } else {
@@ -81,6 +98,10 @@ const App = () => {
           setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
+          setMessage(`Lisättiin henkilö ${newName}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
         })
     }
   }
@@ -100,6 +121,10 @@ const App = () => {
       .deletePerson(id)
       .then(response => {
         setPersons(persons.filter(person => person.id !== id))
+        setMessage(`Poistettiin henkilö ${removeName.name}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
       })
     }
   }
@@ -122,6 +147,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <FilterField value={filter} handler={handleChangeFilter} />
       <h3>add a new</h3>
       <PersonForm onSubmit={addPerson} personValue={newName} numberValue={newNumber} personHandler={handleChangePerson} numberHandler={handleChangeNumber} />
