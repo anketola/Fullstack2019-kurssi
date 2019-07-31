@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import personsService from './services/persons'
 
 const FilterField = ({value, handler }) => {
   return (
@@ -66,10 +66,10 @@ const App = () => {
     if (persons.map(person => person.name).includes(newName)) {
       window.alert(`${newName} is already added to the phonebook`)
     } else {
-      axios
-        .post('http://localhost:3001/persons', personObject)
+      personsService
+        .create(personObject)
         .then(response => {
-          setPersons(persons.concat(response.data))
+          setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
         })
@@ -77,10 +77,10 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    personsService
+      .getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
   }, [])
 
