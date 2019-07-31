@@ -34,25 +34,25 @@ const PersonForm = ({onSubmit, personValue, numberValue, personHandler, numberHa
   )
 }
 
-const Persons = ({ peopleToShow }) => {
+const Persons = ({ peopleToShow, deleteFunction }) => {
   return(
-    <ul>
-      {peopleToShow.map(person => <Person key={person.name} person={person} />)}
-    </ul>
+    <div>
+      {peopleToShow.map(person => <Person key={person.name} person={person} deleteFunction={deleteFunction} />)}
+    </div>
   )
 }
 
-const Person = ({ key, person }) => {
+const Person = ({ person, deleteFunction }) => {
   return(
-    <li key={key}>{person.name} {person.number}</li>
+    <div key={person.id}>
+      {person.name} {person.number}
+      <button onClick={() => deleteFunction(person.id)}>delete</button>
+    </div>
   )
 }
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '000-0000000' },
-    { name: 'Timo Testi', number: '111-1111111'}
-  ]) 
+  const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
@@ -84,6 +84,17 @@ const App = () => {
       })
   }, [])
 
+  const removePerson = (id) => {
+    const removeName = persons.find(n => n.id === id);
+    if (window.confirm(`Delete ${removeName.name} ?`)) { 
+    personsService
+      .deletePerson(id)
+      .then(response => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+    }
+  }
+
   const peopleToShow = filter === '' ? 
     persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
@@ -106,7 +117,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm onSubmit={addPerson} personValue={newName} numberValue={newNumber} personHandler={handleChangePerson} numberHandler={handleChangeNumber} />
       <h3>Numbers</h3>
-      <Persons peopleToShow={peopleToShow} />
+      <Persons peopleToShow={peopleToShow} deleteFunction={removePerson}/>
     </div>
   )
 
