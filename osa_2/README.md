@@ -14,9 +14,9 @@
 * [x] Tehtävä 2.12: maiden tiedot, step1
 * [x] Tehtävä 2.13: maiden tiedot, step2
 * [x] Tehtävä 2.14: maiden tiedot, step3
-* [ ] Tehtävä 2.15: puhelinluettelo step7
-* [ ] Tehtävä 2.16: puhelinluettelo step8
-* [ ] Tehtävä 2.17: puhelinluettelo step9
-* [ ] Tehtävä 2.18: puhelinluettelo step10
-* [ ] Tehtävä 2.19: puhelinluettelo step11
-* [ ] Tehtävä 2.20: puhelinluettelo step12
+* [x] Tehtävä 2.15: puhelinluettelo step7
+* [x] Tehtävä 2.16: puhelinluettelo step8
+* [x] Tehtävä 2.17: puhelinluettelo step9
+* [x] Tehtävä 2.18: puhelinluettelo step10
+* [x] Tehtävä 2.19: puhelinluettelo step11
+* [x] Tehtävä 2.20: puhelinluettelo step12
