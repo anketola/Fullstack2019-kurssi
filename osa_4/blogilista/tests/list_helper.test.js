@@ -1,8 +1,6 @@
 const listHelper = require('../utils/list_helper')
 
-describe('total likes', () => {
-  
-  const emptyList = []
+const emptyList = []
   
   const listWithOneBlog = [
     {
@@ -66,6 +64,8 @@ describe('total likes', () => {
     }  
   ]
 
+describe('total likes', () => {
+  
   test('likes of empty list is zero', () => {
     const result = listHelper.totalLikes(emptyList)
     expect(result).toBe(0)    
@@ -79,6 +79,25 @@ describe('total likes', () => {
   test('big blog list likes calculated correctly', () => {
     const result = listHelper.totalLikes(listWithSixBlogs)
     expect(result).toBe(36)    
+  })
+
+})
+
+describe('favorite blogs', () => {
+
+  test('gives correct blog with list of one', () => {
+    const result = listHelper.favoriteBlog(listWithOneBlog)
+    expect(result).toEqual(listWithOneBlog[0])
+  })
+
+  test('gives undefined with an empty list', () => {
+    const result = listHelper.favoriteBlog(emptyList)
+    expect(result).toEqual(undefined)
+  })
+
+  test('gives correct blog with a big list', () => {
+    const result = listHelper.favoriteBlog(listWithSixBlogs)
+    expect(result).toEqual(listWithSixBlogs[2])
   })
 
 })
