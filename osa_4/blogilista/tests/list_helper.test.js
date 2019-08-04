@@ -101,3 +101,32 @@ describe('favorite blogs', () => {
   })
 
 })
+
+describe('most blogs written', () => {
+
+  test('correct author with a big list', () => {
+    const result = listHelper.mostBlogs(listWithSixBlogs)
+    
+    const correctResult = {
+      author: "Robert C. Martin",
+      blogs: 3
+    }
+    expect(result).toEqual(correctResult)
+  })
+
+  test('correct author with a list of one', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    
+    const correctResult = {
+      author: "Michael Chan",
+      blogs: 1
+    }
+    expect(result).toEqual(correctResult)
+  })
+
+  test('undefined with an empty list', () => {
+    const result = listHelper.mostBlogs(emptyList)
+    expect(result).toEqual(undefined)
+  })
+
+})
