@@ -6,16 +6,17 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs.map(blog => blog.toJSON()))
 })
 
-blogsRouter.get('/:id', (request, response, next) => {
-    Blog.findById(request.params.id)
-      .then(blog => {
-        if (blog) {
-          response.json(blog.toJSON())
-        } else {
-          response.status(404).end()
-        }
-      })
-      .catch(error => next(error))
+blogsRouter.get('/:id', async (request, response, next) => {
+  try {
+    const blog = await Blog.findById(request.params.id)
+    if (blog) {
+      response.json(blog.toJSON())
+    } else {
+      response.status(404).end()
+    }
+  } catch(exception) {
+    next(exception)
+  }
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
@@ -27,21 +28,17 @@ blogsRouter.delete('/:id', async (request, response, next) => {
   }
 })
 
-blogsRouter.put('/:id', (request, response, next) => {
-    const body = request.body
+blogsRouter.put('/:id', async (request, response, next) => {
+  const body = request.body
   
-    const blog = {
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes
+  try {  
+    
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, body, {new: true})
+    response.status(200).json(updatedBlog.toJSON())
+
+    } catch (exception) {
+      next (exception)
     }
-  
-    Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-      .then(updatedBlog => {
-        response.json(updatedBlog.toJSON())
-      })
-      .catch(error => next(error))
 })
 
 blogsRouter.post('/', async (request, response, next) => {

@@ -111,6 +111,29 @@ describe('Deleting a post works as intended by one', () => {
   })
 })
 
+describe('PUT modifies blog likes', () => {
+  test('Possible to change likes in a blog', async () => {
+    const blogsInDatabase = await helper.blogsInDb()
+    const modifiable = blogsInDatabase[0]
+    
+    const updatedBlog = { 
+      ...modifiable,
+      likes: 10
+    }
+
+    await api
+      .put(`/api/blogs/${modifiable.id}`)
+      .send(updatedBlog)
+      .expect(200)
+    
+    const blogsInDatabaseAfter = await helper.blogsInDb()
+    const likesForFirstEntryAfter = blogsInDatabaseAfter[0].likes
+
+    expect(likesForFirstEntryAfter).toBe(10)
+
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
