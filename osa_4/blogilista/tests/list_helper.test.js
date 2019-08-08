@@ -128,5 +128,34 @@ describe('most blogs written', () => {
     const result = listHelper.mostBlogs(emptyList)
     expect(result).toEqual(undefined)
   })
+})
+
+describe('most likes for an author', () => {
+
+  test('correct author with a big list', () => {
+    const result = listHelper.mostLikes(listWithSixBlogs)
+    
+    const correctResult = {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    }
+    expect(result).toEqual(correctResult)
+
+  })
+
+  test('undefined with an empty list', () => {
+    const result = listHelper.mostLikes(emptyList)
+    expect(result).toEqual(undefined)
+  })
+
+  test('correct author with a list of one', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    
+    const correctResult = {
+      author: "Michael Chan",
+      likes: 7
+    }
+    expect(result).toEqual(correctResult)
+  })
 
 })

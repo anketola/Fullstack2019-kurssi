@@ -41,6 +41,43 @@ const mostBlogs = (blogs) => {
   return resultsObject
 }
 
+
+const mostLikes = (blogs) => {
+  let assistList = []
+  blogs.forEach(entry => {
+    if (!assistList.some(item => item.author === entry.author)) {
+      assistList = assistList.concat(
+        { 'author': entry.author,
+         'likes': entry.likes
+        })
+    } else {
+      assistList.find(item => 
+        item.author === entry.author)
+        .likes += entry.likes
+    }
+  //console.log(assistList)
+  })
+
+  mostLikesAuthor = (_(assistList)
+  .sortBy('likes')
+  .reverse()
+  .first())
+
+  if (mostLikesAuthor === undefined || mostLikesAuthor.length === 0) {
+    return undefined
+  }
+
+  //console.log(mostLikesAuthor)
+
+  const resultObject = {
+    author: mostLikesAuthor.author,
+    likes: mostLikesAuthor.likes
+  }
+
+  //console.log(resultObject)
+  return resultObject
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
