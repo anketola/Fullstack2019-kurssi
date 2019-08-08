@@ -56,8 +56,8 @@ describe('POST works as intended', () => {
   test('Blog count increases by one', async () => {
     
     await api
-    .post('/api/blogs')
-    .send(helper.newBlog)
+      .post('/api/blogs')
+      .send(helper.newBlog)
     
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
@@ -67,8 +67,8 @@ describe('POST works as intended', () => {
   test('Correct blog is found in the database', async () => {
   
     await api
-    .post('/api/blogs')
-    .send(helper.newBlog)
+      .post('/api/blogs')
+      .send(helper.newBlog)
 
     const blogsAtEnd = await helper.blogsInDb()
     //console.log(blogsAtEnd)
@@ -85,6 +85,15 @@ describe('POST works as intended', () => {
       .expect(201)
     
     expect(likelessBlog.body.likes).toBe(0)
+  })
+
+  test('A new blog entry requires a title and URL, otherwise status 400', async () => {
+     
+    await api
+      .post('/api/blogs')
+      .send(helper.blogNoTitleUrl)
+      .expect(400)
+
   })
 
 })
