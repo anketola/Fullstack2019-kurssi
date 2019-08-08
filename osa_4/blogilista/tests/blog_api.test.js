@@ -98,6 +98,19 @@ describe('POST works as intended', () => {
 
 })
 
+describe('Deleting a post works as intended by one', () => {
+  test('Deleting one blog reduces blog count', async () => {
+    const blogsInDatabase = await helper.blogsInDb()
+    
+    await api
+      .delete(`/api/blogs/${blogsInDatabase[0].id}`)
+      .expect(204)
+
+    const countAfterTest = await helper.blogsInDb()
+    expect(countAfterTest.length).toBe(blogsInDatabase.length - 1)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
