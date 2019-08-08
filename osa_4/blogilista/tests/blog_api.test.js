@@ -31,6 +31,15 @@ describe('GET requests work as expected', () => {
       .expect('Content-Type', /application\/json/)
   })
 
+  test('the identifying field id exists in JSON response', async () => {
+    const response = await helper.blogsInDb()
+    expect(response[0].id).toBeDefined()
+  })
+
+  test('the JSON response does not contain _id field', async () => {
+    const response = await helper.blogsInDb()
+    expect(response[0]._id).not.toBeDefined()
+  })
 })
 
 /*test('a valid blog can be added ', async () => {
