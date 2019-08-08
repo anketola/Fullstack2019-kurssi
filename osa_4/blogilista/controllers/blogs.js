@@ -52,6 +52,9 @@ blogsRouter.post('/', async (request, response, next) => {
     url: body.url,
     likes: body.likes
   })
+  if (blog.likes === undefined) {
+    blog.likes = 0
+  }
 
   try { 
     const savedBlog = await blog.save()

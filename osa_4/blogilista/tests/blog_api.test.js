@@ -77,6 +77,16 @@ describe('POST works as intended', () => {
     expect(listOfTitles).toContain(helper.newBlog.title)
   })
 
+  test('A new blog with no likes set defaults it to 0', async () => {
+
+    const likelessBlog = await api
+      .post('/api/blogs')
+      .send(helper.newBlogNoLikes)
+      .expect(201)
+    
+    expect(likelessBlog.body.likes).toBe(0)
+  })
+
 })
 
 afterAll(() => {
