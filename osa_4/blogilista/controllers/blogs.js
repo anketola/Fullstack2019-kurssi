@@ -43,13 +43,23 @@ blogsRouter.put('/:id', (request, response, next) => {
       .catch(error => next(error))
 })
 
-blogsRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
+blogsRouter.post('/', async (request, response, next) => {
+  const body = request.body
+
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
+  })
+
+  try { 
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog.toJSON())
+  } catch(exception) {
+    next(exception)
+  }
+
 })
 
 module.exports = blogsRouter

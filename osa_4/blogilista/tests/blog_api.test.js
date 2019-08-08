@@ -42,29 +42,42 @@ describe('GET requests work as expected', () => {
   })
 })
 
-/*test('a valid blog can be added ', async () => {
-  const newBlog = {
-    title: 'async/await simplifies making async calls',
-    author: 'Kirjoittaja 3',
-    url: 'www.blaah.blaah',
-    likes: 0
-  }
+describe('POST works as intended', () => {
 
+  test('A new blog can be added', async () => {
+    
   await api
     .post('/api/blogs')
-    .send(newBlog)
-    .expect(200)
+    .send(helper.newBlog)
+    .expect(201)
     .expect('Content-Type', /application\/json/)
+  })
+
+  test('Blog count increases by one', async () => {
+    
+    await api
+    .post('/api/blogs')
+    .send(helper.newBlog)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+  
+  })
+    
+  test('Correct blog is found in the database', async () => {
+  
+    await api
+    .post('/api/blogs')
+    .send(helper.newBlog)
 
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd.length).toBe(helper.blogsNotes.length + 1)
-  
-    const contents = blogsAtEnd.map(n => n.title)
-    expect(contents).toContain(
-    'async/await simplifies making async calls'
-  )
+    //console.log(blogsAtEnd)
+    const listOfTitles = blogsAtEnd.map(n => n.title)
+    //console.log(listOfTitles)
+    expect(listOfTitles).toContain(helper.newBlog.title)
+  })
+
 })
-*/
 
 afterAll(() => {
   mongoose.connection.close()

@@ -8,12 +8,19 @@ const initialBlogs = [
       likes: 3
     },
     {
-      title: 'Tka blogi',
+      title: 'Toka blogi',
       author: 'kirjoittaja 2',
       url: 'www.jotainjotain.jotain',
       likes: 1
     }
   ]
+
+const newBlog = {
+  title: 'Uusi blogi',
+  author: 'Kirjoittaja 3',
+  url: 'www.blaah.blaah',
+  likes: 0
+}
 
 const nonExistingId = async () => {
   const blog = new Blog({ title: 'willremovethissoon' })
@@ -29,5 +36,5 @@ const blogsInDb = async () => {
 }
 
 module.exports = {
-    initialBlogs, nonExistingId, blogsInDb
+    initialBlogs, nonExistingId, blogsInDb, newBlog
   }
