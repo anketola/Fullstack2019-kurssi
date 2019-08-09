@@ -16,6 +16,12 @@ const initialBlogs = [
     }
   ]
 
+const initialUser = {
+  username: "Testitunnus",
+  name: "Timo Testaaja",
+  password: "salasana123"
+}
+
 const newBlog = {
   title: 'Uusi blogi',
   author: 'Kirjoittaja 3',
@@ -53,5 +59,5 @@ const usersInDb = async () => {
 }
 
 module.exports = {
-    initialBlogs, nonExistingId, blogsInDb, newBlog, newBlogNoLikes, blogNoTitleUrl, usersInDb
+    initialBlogs, nonExistingId, blogsInDb, newBlog, newBlogNoLikes, blogNoTitleUrl, usersInDb, initialUser
   }

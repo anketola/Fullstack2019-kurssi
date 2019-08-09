@@ -11,10 +11,18 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/', async (request, response, next) => {
   const body = request.body
-  console.log(body)
-  
+
   try {
-  
+    
+    if (body.password === undefined || body.password.length === 0 || body.password.length < 3) {
+      return response.status(400).send( {error: 'Password has to be included and be at least 3 characters long'} )
+    }
+    
+    const compare = await User.findOne({ username : body.username})
+    if (compare) {
+      return response.status(400).send( {error: 'Username already in use'})
+    }
+
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
