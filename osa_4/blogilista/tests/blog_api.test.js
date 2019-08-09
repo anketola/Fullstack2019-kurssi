@@ -2,19 +2,27 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
+const jwt = require('jsonwebtoken')
 
 const api = supertest(app)
 
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  
+  await User.deleteMany({})
+  const newUser = new User(helper.initialUser)
+  await newUser.save()
+
   let blogObject = new Blog(helper.initialBlogs[0])
+  blogObject.user = newUser._id
   await blogObject.save()
   
   blogObject = new Blog(helper.initialBlogs[1])
   await blogObject.save()
+
+ 
 })
 
 describe('GET requests work as expected', () => {
@@ -45,18 +53,34 @@ describe('GET requests work as expected', () => {
 describe('POST works as intended', () => {
 
   test('A new blog can be added', async () => {
-    
+  const usersAtStart = await helper.usersInDb()
+  const user = usersAtStart[0]
+  const dummyForToken = {
+    username: user.username,
+    id: user.id
+  }
+  const dummyToken = jwt.sign(dummyForToken, process.env.SECRET)
+
   await api
     .post('/api/blogs')
+    .set('Authorization', `bearer ${dummyToken}`)
     .send(helper.newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
   })
 
   test('Blog count increases by one', async () => {
-    
+    const usersAtStart = await helper.usersInDb()
+    const user = usersAtStart[0]
+    const dummyForToken = {
+      username: user.username,
+      id: user.id
+    }
+    const dummyToken = jwt.sign(dummyForToken, process.env.SECRET)
+
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${dummyToken}`)
       .send(helper.newBlog)
     
     const blogsAtEnd = await helper.blogsInDb()
@@ -65,9 +89,17 @@ describe('POST works as intended', () => {
   })
     
   test('Correct blog is found in the database', async () => {
-  
+    const usersAtStart = await helper.usersInDb()
+    const user = usersAtStart[0]
+    const dummyForToken = {
+      username: user.username,
+      id: user.id
+    }
+    const dummyToken = jwt.sign(dummyForToken, process.env.SECRET)
+
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${dummyToken}`)
       .send(helper.newBlog)
 
     const blogsAtEnd = await helper.blogsInDb()
@@ -78,9 +110,17 @@ describe('POST works as intended', () => {
   })
 
   test('A new blog with no likes set defaults it to 0', async () => {
+    const usersAtStart = await helper.usersInDb()
+    const user = usersAtStart[0]
+    const dummyForToken = {
+      username: user.username,
+      id: user.id
+    }
+    const dummyToken = jwt.sign(dummyForToken, process.env.SECRET)
 
     const likelessBlog = await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${dummyToken}`)
       .send(helper.newBlogNoLikes)
       .expect(201)
     
@@ -88,10 +128,18 @@ describe('POST works as intended', () => {
   })
 
   test('A new blog entry requires a title and URL, otherwise status 400', async () => {
-     
+    const usersAtStart = await helper.usersInDb()
+    const user = usersAtStart[0]
+    const dummyForToken = {
+      username: user.username,
+      id: user.id
+    }
+    const dummyToken = jwt.sign(dummyForToken, process.env.SECRET)
+
     await api
       .post('/api/blogs')
       .send(helper.blogNoTitleUrl)
+      .set('Authorization', `bearer ${dummyToken}`)
       .expect(400)
 
   })
@@ -100,10 +148,19 @@ describe('POST works as intended', () => {
 
 describe('Deleting a post works as intended by one', () => {
   test('Deleting one blog reduces blog count', async () => {
-    const blogsInDatabase = await helper.blogsInDb()
     
+    const blogsInDatabase = await helper.blogsInDb()
+    const usersAtStart = await helper.usersInDb()
+    const user = usersAtStart[0]
+    const dummyForToken = {
+      username: user.username,
+      id: user.id
+    }
+    const dummyToken = jwt.sign(dummyForToken, process.env.SECRET)
+
     await api
       .delete(`/api/blogs/${blogsInDatabase[0].id}`)
+      .set('Authorization', `bearer ${dummyToken}`)
       .expect(204)
 
     const countAfterTest = await helper.blogsInDb()
