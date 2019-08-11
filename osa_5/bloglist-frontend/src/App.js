@@ -4,9 +4,22 @@ import loginService from './services/login'
 import blogService from './services/blogs'
 import Blog from './components/Blog'
 
+const Notification = ( {message, type} ) => {
+  if (message === null) {
+    return null
+  } else {
+    return (
+      <div className={type}>
+        {message}
+      </div>
+    )
+  }
+}
+
 function App() {
   const [blogs, setBlogs] = useState([]) 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [blogTitle, setBlogTitle] = useState('')
@@ -44,10 +57,16 @@ function App() {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setMessageType('notification')
+      setMessage('Logged in successfully')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setMessageType('error')
+      setMessage('wrong username or password')
+      setTimeout(() => {
+        setMessage(null)
       }, 5000)
     }
   }
@@ -75,6 +94,11 @@ function App() {
         setBlogAuthor('')
         setBlogUrl('')
       })
+      setMessageType('notification')
+      setMessage(`a new blog ${newBlogObject.title} by ${newBlogObject.Author} has been successfully added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
   }
 
   const blogForm = () => (
@@ -138,6 +162,7 @@ function App() {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={message} type={messageType}/>
         {loginForm()}
       </div>
     )
@@ -146,6 +171,7 @@ function App() {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={message} type={messageType} />
       <p>
       {user.name} logged in
         <button onClick={handleLogout}>
