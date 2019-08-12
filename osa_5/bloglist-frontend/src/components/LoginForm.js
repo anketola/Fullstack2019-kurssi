@@ -7,7 +7,7 @@ const LoginForm = ({
   handlePasswordChange,
   username,
   password
-  }) => {
+}) => {
   return (
     <div>
       <h2>blogs</h2>
@@ -27,7 +27,7 @@ const LoginForm = ({
             value={password}
             onChange={handlePasswordChange}
           />
-      </div>
+        </div>
         <button type="submit">login</button>
       </form>
     </div>

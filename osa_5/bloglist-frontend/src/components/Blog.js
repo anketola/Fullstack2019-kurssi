@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
@@ -19,11 +19,11 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
     const id = blog.id
     const blogUser = blog.user
     const updatedObject = {
-      ...blog,  
+      ...blog,
       user: blog.user._id,
       likes: blog.likes + 1 }
     const updatedBlogObject = await blogService.update(id, updatedObject)
-    setBlogs(blogs.filter(previtem => previtem.id !== blog.id).concat({...updatedBlogObject, user: blogUser}))
+    setBlogs(blogs.filter(previtem => previtem.id !== blog.id).concat({ ...updatedBlogObject, user: blogUser }))
   }
 
   const handleRemove = async () => {
@@ -35,13 +35,13 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
 
   if (visible === false) {
 
-  return (
-    <div style={blogStyle}>
-      <div onClick={() => setVisible(!visible)}>
-        {blog.title} {blog.author}
+    return (
+      <div style={blogStyle}>
+        <div onClick={() => setVisible(!visible)}>
+          {blog.title} {blog.author}
+        </div>
       </div>
-    </div>
-  )
+    )
   }
 
   return (
@@ -60,7 +60,7 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
           remove
         </button>
       </div>
-  </div>
+    </div>
   )
 }
 

@@ -27,7 +27,7 @@ const remove = id => {
   }
   const response = axios.delete(`${ baseUrl }/${id}`, config)
   return response.data
-}  
+}
 
 const update = (id, newObject) => {
   const request = axios.put(`${ baseUrl }/${id}`, newObject)
