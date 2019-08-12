@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
+import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, blogs, setBlogs }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -9,6 +10,16 @@ const Blog = ({ blog }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const handleLikePress = async () => {
+    const id = blog.id
+    const updatedObject = {
+      ...blog,  
+      user: blog.user._id,
+      likes: blog.likes + 1 }
+    const updatedBlogObject = await blogService.update(id, updatedObject)
+    setBlogs(blogs.filter(previtem => previtem.id !== blog.id).concat(updatedBlogObject))
   }
 
   if (visible === false) {
@@ -30,7 +41,7 @@ const Blog = ({ blog }) => {
       <div>
         <a href={blog.url}>{blog.url}</a> <br />
         {blog.likes} likes
-        <button onClick={() => console.log('pressed like')}>
+        <button onClick={handleLikePress}>
           like
         </button> <br />
         added by {blog.user.name}
