@@ -5,7 +5,7 @@ import blogService from './services/blogs'
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
-// import LoginForm from './compnents/LoginForm'
+import LoginForm from './components/LoginForm'
 
 const Notification = ( {message, type} ) => {
   if (message === null) {
@@ -94,6 +94,14 @@ function App() {
     setBlogUrl(event.target.value)
   }
 
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  }
+
   const addBlog = async (event) => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
@@ -121,37 +129,19 @@ function App() {
       setMessage(null)
     }, 5000)
   }
-
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>      
-  )
-
+  
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
         <Notification message={message} type={messageType}/>
-        {loginForm()}
+        <LoginForm
+        handleSubmit={handleLogin}
+        username={username}
+        password={password}
+        handleUsernameChange={handleUsernameChange}
+        handlePasswordChange={handlePasswordChange}
+        />
       </div>
     )
   }
@@ -172,9 +162,9 @@ function App() {
       <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm
         handleSubmit={addBlog}
-        title={blogTitle}
-        author={blogAuthor}
-        url={blogUrl}
+        blogTitle={blogTitle}
+        blogAuthor={blogAuthor}
+        blogUrl={blogUrl}
         handleBlogTitleChange={handleBlogTitleChange}
         handleBlogAuthorChange={handleBlogAuthorChange}
         handleBlogUrlChange={handleBlogUrlChange}
