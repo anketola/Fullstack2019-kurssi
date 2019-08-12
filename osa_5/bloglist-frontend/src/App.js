@@ -103,19 +103,23 @@ function App() {
       url: blogUrl
     }
     
-    blogService
-      .create(newBlogObject)
-      .then(data => {
-        setBlogs(blogs.concat(data))
-        setBlogTitle('')
-        setBlogAuthor('')
-        setBlogUrl('')
-      })
-      setMessageType('notification')
-      setMessage(`a new blog ${newBlogObject.title} by ${newBlogObject.author} has been successfully added`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+    const addedBlog = await blogService.create(newBlogObject)
+    setBlogTitle('')
+    setBlogAuthor('')
+    setBlogUrl('')
+    //console.log(addedBlog)
+    const newBlog = {
+      ...addedBlog,
+      user: user
+    }
+    //console.log(newBlog)
+    setBlogs(blogs.concat(newBlog))
+
+    setMessageType('notification')
+    setMessage(`a new blog ${newBlogObject.title} by ${newBlogObject.author} has been successfully added`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
   }
 
   const loginForm = () => (
