@@ -36,20 +36,20 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   if (visible === false) {
 
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className="summary">
         <div onClick={() => setVisible(!visible)}>
-          {blog.title} {blog.author}
+          {blog.title} {blog.author} <br />
         </div>
       </div>
     )
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="summary">
       <div onClick={() => setVisible(!visible)}>
         {blog.title} {blog.author} <br />
       </div>
-      <div>
+      <div className="details">
         <a href={blog.url}>{blog.url}</a> <br />
         {blog.likes} likes
         <button onClick={handleLikePress}>
