@@ -1,9 +1,6 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
-import { render, cleanup } from '@testing-library/react'
+import { render, cleanup, fireEvent } from '@testing-library/react'
 import SimpleBlog from './SimpleBlog'
-
-afterEach(cleanup)
 
 test('renders title, author and likes', () => {
   const blog = {
@@ -13,7 +10,7 @@ test('renders title, author and likes', () => {
   }
 
   const tempClickHandler = () => {
-
+  
   }
 
   const component = render(
@@ -29,4 +26,25 @@ test('renders title, author and likes', () => {
   expect(testTitle).toHaveTextContent('Test Title')
   expect(testAuthor).toHaveTextContent('Test Author')
   expect(testLikes).toHaveTextContent('5')
+})
+
+test('function called twice when clicked twice', () => {
+  const blog = {
+    title: 'Test Title',
+    author: 'Test Author',
+    likes: 0
+  }
+
+  const mockHandler = jest.fn()
+
+  const { getByText } = render(
+    <SimpleBlog blog={blog} onClick={mockHandler} />
+  )
+
+  const button = getByText('like')
+  fireEvent.click(button)
+  fireEvent.click(button)
+
+  expect(mockHandler.mock.calls.length).toBe(2)
+  
 })
