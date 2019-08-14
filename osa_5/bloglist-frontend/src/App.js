@@ -132,7 +132,7 @@ function App() {
 
   if (user === null) {
     return (
-      <div>
+      <div className="loginarea">
         <h2>Log in to application</h2>
         <Notification message={message} type={messageType}/>
         <LoginForm
@@ -170,10 +170,11 @@ function App() {
           handleBlogUrlChange={handleBlogUrlChange}
         />
       </Togglable>
-
+      <div className="bloglistings">
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} user={user}/>
       )}
+      </div>
     </div>
   )
 }
