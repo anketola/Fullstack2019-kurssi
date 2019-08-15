@@ -6,6 +6,7 @@ import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
+import  { useField } from './hooks'
 
 const Notification = ( { message, type } ) => {
   if (message === null) {
@@ -23,8 +24,8 @@ function App() {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('username')
+  const password = useField('password')
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
@@ -52,7 +53,7 @@ function App() {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.value, password: password.value,
       })
 
       window.localStorage.setItem(
@@ -60,8 +61,8 @@ function App() {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      //setUsername('')
+      //setPassword('')
       setMessageType('notification')
       setMessage('Logged in successfully')
       setTimeout(() => {
@@ -92,14 +93,6 @@ function App() {
 
   const handleBlogUrlChange = (event) => {
     setBlogUrl(event.target.value)
-  }
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
   }
 
   const addBlog = async (event) => {
@@ -137,10 +130,10 @@ function App() {
         <Notification message={message} type={messageType}/>
         <LoginForm
           handleSubmit={handleLogin}
-          username={username}
-          password={password}
-          handleUsernameChange={handleUsernameChange}
-          handlePasswordChange={handlePasswordChange}
+          username={username.value}
+          password={password.value}
+          handleUsernameChange={username.onChange}
+          handlePasswordChange={password.onChange}
         />
       </div>
     )
