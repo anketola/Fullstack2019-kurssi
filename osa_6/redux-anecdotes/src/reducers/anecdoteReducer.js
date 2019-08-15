@@ -31,6 +31,14 @@ const reducer = (state = initialState, action) => {
       const oldState = state.filter(n => n.id !== action.anecdote_id)
       //console.log(oldState.concat(newAnecdote))
       return oldState.concat(newAnecdote)
+    case 'ADDNEW' :
+    //console.log('action', action)
+      const createdAnecdote = {
+        content: action.content,
+        id: getId(),
+        votes: 0
+      }
+      return state.concat(createdAnecdote)
     default:
       return state
   }
