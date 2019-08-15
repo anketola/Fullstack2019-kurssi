@@ -5,10 +5,7 @@ const BlogForm = ({
   handleSubmit,
   blogTitle,
   blogAuthor,
-  blogUrl,
-  handleBlogTitleChange,
-  handleBlogAuthorChange,
-  handleBlogUrlChange
+  blogUrl
 }) => {
   return (
     <div>
@@ -16,30 +13,15 @@ const BlogForm = ({
       <form onSubmit={handleSubmit}>
         <div>
         title:
-          <input
-            type="text"
-            value={blogTitle}
-            name="Title"
-            onChange={handleBlogTitleChange}
-          />
+          <input { ...blogTitle} />
         </div>
         <div>
         author:
-          <input
-            type="text"
-            value={blogAuthor}
-            name="Author"
-            onChange={handleBlogAuthorChange}
-          />
+          <input {...blogAuthor} />
         </div>
         <div>
         url:
-          <input
-            type="text"
-            value={blogUrl}
-            name="Url"
-            onChange={handleBlogUrlChange}
-          />
+          <input { ...blogUrl }/>
         </div>
         <button type="submit">create</button>
       </form>
@@ -49,12 +31,9 @@ const BlogForm = ({
 
 BlogForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  blogTitle: PropTypes.string.isRequired,
-  blogAuthor: PropTypes.string.isRequired,
-  blogUrl: PropTypes.string.isRequired,
-  handleBlogTitleChange: PropTypes.func.isRequired,
-  handleBlogAuthorChange: PropTypes.func.isRequired,
-  handleBlogUrlChange: PropTypes.func.isRequired,
+  blogTitle: PropTypes.object.isRequired,
+  blogAuthor: PropTypes.object.isRequired,
+  blogUrl: PropTypes.object.isRequired
 }
 
 export default BlogForm

@@ -6,7 +6,7 @@ import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
-import  { useField } from './hooks'
+import { useField } from './hooks'
 
 const Notification = ( { message, type } ) => {
   if (message === null) {
@@ -26,9 +26,9 @@ function App() {
   const [messageType, setMessageType] = useState(null)
   const username = useField('username')
   const password = useField('password')
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
+  const blogTitle = useField('text')
+  const blogAuthor = useField('text')
+  const blogUrl = useField('text')
   const [user, setUser] = useState(null)
 
   const blogFormRef = React.createRef()
@@ -61,8 +61,8 @@ function App() {
       )
       blogService.setToken(user.token)
       setUser(user)
-      //setUsername('')
-      //setPassword('')
+      username.reset()
+      password.reset()
       setMessageType('notification')
       setMessage('Logged in successfully')
       setTimeout(() => {
@@ -83,31 +83,19 @@ function App() {
     setUser(null)
   }
 
-  const handleBlogTitleChange = (event) => {
-    setBlogTitle(event.target.value)
-  }
-
-  const handleBlogAuthorChange = (event) => {
-    setBlogAuthor(event.target.value)
-  }
-
-  const handleBlogUrlChange = (event) => {
-    setBlogUrl(event.target.value)
-  }
-
   const addBlog = async (event) => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
     const newBlogObject = {
-      title: blogTitle,
-      author: blogAuthor,
-      url: blogUrl
+      title: blogTitle.value,
+      author: blogAuthor.value,
+      url: blogUrl.value
     }
 
     const addedBlog = await blogService.create(newBlogObject)
-    setBlogTitle('')
-    setBlogAuthor('')
-    setBlogUrl('')
+    blogTitle.reset()
+    blogAuthor.reset()
+    blogUrl.reset()
     //console.log(addedBlog)
     const newBlog = {
       ...addedBlog,
@@ -130,10 +118,8 @@ function App() {
         <Notification message={message} type={messageType}/>
         <LoginForm
           handleSubmit={handleLogin}
-          username={username.value}
-          password={password.value}
-          handleUsernameChange={username.onChange}
-          handlePasswordChange={password.onChange}
+          username={username.withoutReset()}
+          password={password.withoutReset()}
         />
       </div>
     )
@@ -155,12 +141,9 @@ function App() {
       <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm
           handleSubmit={addBlog}
-          blogTitle={blogTitle}
-          blogAuthor={blogAuthor}
-          blogUrl={blogUrl}
-          handleBlogTitleChange={handleBlogTitleChange}
-          handleBlogAuthorChange={handleBlogAuthorChange}
-          handleBlogUrlChange={handleBlogUrlChange}
+          blogTitle={blogTitle.withoutReset()}
+          blogAuthor={blogAuthor.withoutReset()}
+          blogUrl={blogUrl.withoutReset()}
         />
       </Togglable>
       <div className="bloglistings">
