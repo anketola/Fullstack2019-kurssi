@@ -12,7 +12,7 @@ const AnecdoteList = (props) => {
 
   const vote = (anecdote) => {
     props.voteAnecdote(anecdote.id)
-    props.notificationChange(`you voted for '${anecdote.content}'`))  
+    props.notificationChange(`you voted for '${anecdote.content}'`)  
     setTimeout(() => {
       props.nullifyNotification()
     }, 5000)
@@ -40,7 +40,7 @@ return (
 )
 } 
 const mapStateToProps = (state) => {
-  //console.log(state)
+  console.log(state)
   return {
     anecdotes: state.anecdotes,
     filter: state.filter

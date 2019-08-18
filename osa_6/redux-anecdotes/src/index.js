@@ -16,7 +16,7 @@ const combReducer = combineReducers({
 
 const store = createStore(combReducer)
 
-console.log(store.getState())
+//console.log(store.getState())
 //store.dispatch(notificationChange('sds'))
 //console.log(store.getState())
 
