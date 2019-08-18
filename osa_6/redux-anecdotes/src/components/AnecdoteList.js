@@ -3,11 +3,13 @@ import { voteAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = (props) => {
   
-  const anecdotes = props.store.getState()
+  const anecdotes = props.store.getState().anecdotes
   
   const vote = (id) => {
       props.store.dispatch(voteAnecdote(id))
   }
+  
+  console.log(anecdotes)
 
 return (
   <div>  
