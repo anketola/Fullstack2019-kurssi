@@ -4,6 +4,7 @@ import { createStore, combineReducers } from 'redux'
 import App from './App'
 import reducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationReducer'
+// import { notificationChange } from './reducers/notificationReducer'
 
 const combReducer = combineReducers({
   anecdotes: reducer,
@@ -13,6 +14,8 @@ const combReducer = combineReducers({
 const store = createStore(combReducer)
 
 console.log(store.getState())
+//store.dispatch(notificationChange('sds'))
+//console.log(store.getState())
 
 const renderApp = () => {
   ReactDOM.render(
