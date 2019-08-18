@@ -6,10 +6,6 @@ import { notificationChange, nullifyNotification } from '../reducers/notificatio
 
 const AnecdoteList = (props) => {
   
-  const anecdotes = props.anecdotes
-  
-  const filter = props.filter
-
   const vote = (anecdote) => {
     props.voteAnecdote(anecdote.id)
     props.notificationChange(`you voted for '${anecdote.content}'`)  
@@ -22,9 +18,7 @@ const AnecdoteList = (props) => {
 return (
   <div>
     <Filter store={props.store}/>  
-    {anecdotes
-    .sort((a, b) => b.votes - a.votes)
-    .filter(anecdote => anecdote.content.includes(filter))
+    {props.visibleAnecdotes
     .map(anecdote =>
       <div key={anecdote.id}>
         <div>
@@ -38,11 +32,17 @@ return (
     )}
   </div>
 )
-} 
+}
+
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  return anecdotes
+    .sort((a, b) => b.votes - a.votes)
+    .filter(anecdote => anecdote.content.includes(filter))
+}
+
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-    anecdotes: state.anecdotes,
+    visibleAnecdotes: anecdotesToShow(state),
     filter: state.filter
   }
 }
