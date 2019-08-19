@@ -16,7 +16,7 @@
 * [x] Tehtävä 6.14: paremmat anekdootit, step12
 * [x] Tehtävä 6.15: paremmat anekdootit, step13
 * [x] Tehtävä 6.16: anekdootit ja backend, step1
-* [ ] Tehtävä 6.17: anekdootit ja backend, step2
+* [x] Tehtävä 6.17: anekdootit ja backend, step2
 * [x] Tehtävä 6.18: anekdootit ja backend, step4
 * [x] Tehtävä 6.19: anekdootit ja backend, step5
 * [x] Tehtävä 6.20: anekdootit ja backend, step3
