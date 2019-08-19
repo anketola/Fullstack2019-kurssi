@@ -5,11 +5,12 @@ const reducer = (state = [], action) => {
   //console.log('action', action)
   switch (action.type) {
     case 'VOTE' :
-      const anecdoteToChange = state.find(n => n.id === action.anecdote_id)
+      console.log(action.data)
+      const anecdoteToChange = state.find(n => n.id === action.data.id)
       const newAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes + 1}
       //console.log(anecdoteToChange)
       //console.log(newAnecdote)
-      const oldState = state.filter(n => n.id !== action.anecdote_id)
+      const oldState = state.filter(n => n.id !== action.data.id)
       //console.log(oldState.concat(newAnecdote))
       return oldState.concat(newAnecdote)
     case 'ADDNEW' :
@@ -27,10 +28,14 @@ const reducer = (state = [], action) => {
   }
 }
 
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    anecdote_id: id
+export const voteAnecdote = (anecdote) => {
+  return async dispatch => {
+    const modifiedAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
+    const dispatchAnecdote = await anecdoteService.updateAnecdote(modifiedAnecdote) 
+    dispatch({
+      type: 'VOTE',
+      data: dispatchAnecdote
+    })
   }
 }
 

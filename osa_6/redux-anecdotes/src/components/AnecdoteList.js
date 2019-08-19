@@ -7,7 +7,7 @@ import { notificationChange, nullifyNotification } from '../reducers/notificatio
 const AnecdoteList = (props) => {
   
   const vote = (anecdote) => {
-    props.voteAnecdote(anecdote.id)
+    props.voteAnecdote(anecdote)
     props.notificationChange(`you voted for '${anecdote.content}'`)  
     setTimeout(() => {
       props.nullifyNotification()
