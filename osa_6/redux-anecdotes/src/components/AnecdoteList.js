@@ -35,6 +35,7 @@ return (
 }
 
 const anecdotesToShow = ({ anecdotes, filter }) => {
+  console.log(anecdotes)
   return anecdotes
     .sort((a, b) => b.votes - a.votes)
     .filter(anecdote => anecdote.content.includes(filter))

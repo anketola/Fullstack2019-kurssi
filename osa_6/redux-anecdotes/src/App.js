@@ -3,17 +3,14 @@ import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { connect } from 'react-redux'
-import anecdoteService from './services/anecdotes'
 import { initializeAnecdotes } from './reducers/anecdoteReducer'
 
 const App = (props) => {
   
-  const anecdotesAtStart = props.initializeAnecdotes
-
   useEffect(() => {
-    anecdoteService.getAll()
-    .then(anecdotes => anecdotesAtStart(anecdotes))
-  },[anecdotesAtStart])
+    props.initializeAnecdotes()
+  },[])
+
 
   return (
     <div>

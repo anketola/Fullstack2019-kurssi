@@ -5,11 +5,11 @@ import { connect } from 'react-redux'
 
 const AnecdoteForm = (props) => {
     
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdotetext.value
-    props.createAnecdote(content)
     event.target.anecdotetext.value = ''
+    props.createAnecdote(content)
     props.notificationChange(`you added a new anecdote called '${content}'`)   
     setTimeout(() => {
       props.nullifyNotification()
