@@ -21,7 +21,7 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li><Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
     </ul>
   </div>
 )
@@ -56,7 +56,14 @@ const Footer = () => (
   </div>
 )
 
+const Notification = ({ notification }) => {
+  if (notification === '')
+    return (<div></div>)
+  return (<div>{notification}</div>)
+}
+
 const CreateNew = (props) => {
+  const [newAdded, setNewAdded] = useState(false)
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -70,6 +77,15 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.setNotification(`a new anecdote ${content} created`)
+    setTimeout(() => {
+      props.setNotification(null)
+    }, 10000)
+    setNewAdded(true)
+  }
+
+  if (newAdded === true) {
+    return <Redirect to="/" />
   }
 
   return (
@@ -140,9 +156,10 @@ const App = () => {
         <div>
           <h1>Software anecdotes</h1>
           <Menu />
+          <Notification notification={notification} />
           <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes} />} />
           <Route exact path="/anecdotes/:id" render={({ match }) => <Anecdote anecdote={anecdoteById(match.params.id)} />} />
-          <Route exact path="/create" render={() => <CreateNew addNew={addNew} />} />
+          <Route exact path="/create" render={() => <CreateNew setNotification={setNotification} addNew={addNew} />} />
           <Route exact path="/about" render={() => <About />} />
         </div>
        </Router>
