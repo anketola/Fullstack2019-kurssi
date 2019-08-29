@@ -6,24 +6,13 @@ import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
 import { useField } from './hooks'
+import { changeNotification } from './reducers/notifyReducer'
+import { connect } from 'react-redux'
 
-const Notification = ( { message, type } ) => {
-  if (message === null) {
-    return null
-  } else {
-    return (
-      <div className={type}>
-        {message}
-      </div>
-    )
-  }
-}
-
-function App() {
+const App = (props) => {
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
-  const [messageType, setMessageType] = useState(null)
   const username = useField('username')
   const password = useField('password')
   const blogTitle = useField('text')
@@ -63,17 +52,9 @@ function App() {
       setUser(user)
       username.reset()
       password.reset()
-      setMessageType('notification')
-      setMessage('Logged in successfully')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    } catch (exception) {
-      setMessageType('error')
-      setMessage('wrong username or password')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      props.changeNotification('Logged in successfully', 'notification')
+      } catch (exception) {
+      props.changeNotification('wrong username or password', 'error')
     }
   }
 
@@ -103,19 +84,14 @@ function App() {
     }
     //console.log(newBlog)
     setBlogs(blogs.concat(newBlog))
-
-    setMessageType('notification')
-    setMessage(`a new blog ${newBlogObject.title} by ${newBlogObject.author} has been successfully added`)
-    setTimeout(() => {
-      setMessage(null)
-    }, 5000)
+    props.changeNotification(`a new blog ${newBlogObject.title} by ${newBlogObject.author} has been successfully added`, 'notification')
   }
-
+  
   if (user === null) {
     return (
       <div className="loginarea">
         <h2>Log in to application</h2>
-        <Notification message={message} type={messageType}/>
+        <Notification />
         <LoginForm
           handleSubmit={handleLogin}
           username={username.withoutReset()}
@@ -128,7 +104,8 @@ function App() {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={message} type={messageType} />
+      
+      <Notification />
       <p>
         {user.name} logged in
         <button onClick={handleLogout}>
@@ -155,4 +132,10 @@ function App() {
   )
 }
 
-export default App
+const mapDispatchToProps = {
+  changeNotification,
+}
+
+const ConnectedApp = connect(null, mapDispatchToProps)(App)
+
+export default ConnectedApp
