@@ -10,9 +10,9 @@ import Notification from './components/Notification'
 import { useField } from './hooks'
 import { changeNotification } from './reducers/notifyReducer'
 import { connect } from 'react-redux'
+import { initializeBlogs, addNewBlog } from './reducers/blogReducer'
 
 const App = (props) => {
-  const [blogs, setBlogs] = useState([])
   const username = useField('username')
   const password = useField('password')
   const blogTitle = useField('text')
@@ -23,10 +23,7 @@ const App = (props) => {
   const blogFormRef = React.createRef()
 
   useEffect(() => {
-    blogService
-      .getAll().then(initialBlogs => {
-        setBlogs(initialBlogs)
-      })
+    props.initializeBlogs()
   }, [])
 
   useEffect(() => {
@@ -70,20 +67,13 @@ const App = (props) => {
     const newBlogObject = {
       title: blogTitle.value,
       author: blogAuthor.value,
-      url: blogUrl.value
+      url: blogUrl.value,
+      user: user
     }
-
-    const addedBlog = await blogService.create(newBlogObject)
     blogTitle.reset()
     blogAuthor.reset()
     blogUrl.reset()
-    //console.log(addedBlog)
-    const newBlog = {
-      ...addedBlog,
-      user: user
-    }
-    //console.log(newBlog)
-    setBlogs(blogs.concat(newBlog))
+    props.addNewBlog(newBlogObject)
     props.changeNotification(`a new blog ${newBlogObject.title} by ${newBlogObject.author} has been successfully added`, 'notification')
   }
   
@@ -124,8 +114,8 @@ const App = (props) => {
         />
       </Togglable>
       <div className="bloglistings">
-      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} user={user}/>
+      {props.blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+        <Blog key={blog.id} blog={blog} user={user}/>
       )}
       </div>
     </div>
@@ -134,8 +124,16 @@ const App = (props) => {
 
 const mapDispatchToProps = {
   changeNotification,
+  initializeBlogs,
+  addNewBlog
 }
 
-const ConnectedApp = connect(null, mapDispatchToProps)(App)
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs
+  }
+}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
 export default ConnectedApp

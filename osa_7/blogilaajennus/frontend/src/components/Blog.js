@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { removeBlog, increaseLikes } from '../reducers/blogReducer'
 
-const Blog = ({ blog, blogs, setBlogs, user }) => {
+const Blog = (props) => {
+  
+  const blog = props.blog
+  const user = props.user
+
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -16,20 +21,12 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   const removeButtonVisible = { display: user.username === blog.user.username ? '' : 'none' }
 
   const handleLikePress = async () => {
-    const id = blog.id
-    const blogUser = blog.user
-    const updatedObject = {
-      ...blog,
-      user: blog.user._id,
-      likes: blog.likes + 1 }
-    const updatedBlogObject = await blogService.update(id, updatedObject)
-    setBlogs(blogs.filter(previtem => previtem.id !== blog.id).concat({ ...updatedBlogObject, user: blogUser }))
+    props.increaseLikes(blog)
   }
 
   const handleRemove = async () => {
     if (window.confirm(`remove ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id)
-      setBlogs(blogs.filter(items => items.id !== blog.id))
+      props.removeBlog(blog)
     }
   }
 
@@ -70,9 +67,13 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+}
+const mapDispatchToProps = {
+  removeBlog,
+  increaseLikes
 }
 
-export default Blog
+const ConnectedBlog = connect(null, mapDispatchToProps)(Blog)
+
+export default ConnectedBlog
