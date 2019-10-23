@@ -7,12 +7,14 @@ import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import UsersView from './components/UsersView'
 import { useField } from './hooks'
 import { changeNotification } from './reducers/notifyReducer'
 import { connect } from 'react-redux'
 import { initializeBlogs, addNewBlog } from './reducers/blogReducer'
 import { initializeAllUsers } from './reducers/allUsersReducer'
 import { setUser, handleUserLogout } from './reducers/authenticationReducer'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 
 const App = (props) => {
   const username = useField('username')
@@ -102,22 +104,32 @@ const App = (props) => {
         </button>
       </p>
 
-      <h2>create new</h2>
 
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-        <BlogForm
-          handleSubmit={addBlog}
-          blogTitle={blogTitle.withoutReset()}
-          blogAuthor={blogAuthor.withoutReset()}
-          blogUrl={blogUrl.withoutReset()}
-        />
-      </Togglable>
-      <div className="bloglistings">
-      {props.blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} user={props.user}/>
-      )}
-      </div>
-    </div>
+      <Router>
+        
+        <Route exact path="/" render={() =>
+            <div>  
+              <h2>create new</h2>
+
+              <Togglable buttonLabel='new blog' ref={blogFormRef}>
+                <BlogForm
+                  handleSubmit={addBlog}
+                  blogTitle={blogTitle.withoutReset()}
+                  blogAuthor={blogAuthor.withoutReset()}
+                  blogUrl={blogUrl.withoutReset()}
+                />
+              </Togglable>
+
+              <div className="bloglistings">
+              {props.blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+                <Blog key={blog.id} blog={blog} user={props.user}/>
+              )}
+              </div>
+            </div>
+      } />
+      <Route exact path="/users" render={() => <UsersView />} />
+      </Router>
+  </div>
   )
 }
 
