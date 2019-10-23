@@ -8,6 +8,7 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import UsersView from './components/UsersView'
+import UserView from './components/UserView'
 import { useField } from './hooks'
 import { changeNotification } from './reducers/notifyReducer'
 import { connect } from 'react-redux'
@@ -127,7 +128,9 @@ const App = (props) => {
               </div>
             </div>
       } />
-      <Route exact path="/users" render={() => <UsersView />} />
+    <Route exact path="/users" render={({ match }) => <UsersView path={match.path}/>} />
+    <Route exact path="/users/:id" render={({ match }) => <UserView path={match.path}
+        user={props.users.find(user => user.id == match.params.id)}/>} />
       </Router>
   </div>
   )

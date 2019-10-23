@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const UsersView = (props) => {
   
@@ -7,7 +8,7 @@ const UsersView = (props) => {
       return(
         <tr key={user.id}>
           <td>
-            {user.name}
+            <Link to={`${props.path}/${user.id}`}>{user.name}</Link>
           </td>
           <td>
             {user.blogs.length}
