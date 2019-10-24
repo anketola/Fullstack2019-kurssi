@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { removeBlog, increaseLikes } from '../reducers/blogReducer'
 
 const Blog = (props) => {
-  
+
   const blog = props.blog
   const user = props.user
 
@@ -33,35 +33,35 @@ const Blog = (props) => {
   if (visible === false) {
 
     return (
-    <div className="blogitem">  
-      <div style={blogStyle} className="summary">
-        <div onClick={() => setVisible(!visible)}>
-          {blog.title} {blog.author} <br />
+      <div className="blogitem">
+        <div style={blogStyle} className="summary">
+          <div onClick={() => setVisible(!visible)}>
+            {blog.title} {blog.author} <br />
+          </div>
         </div>
       </div>
-    </div>
     )
   }
 
   return (
-  <div className="blogitem">  
-    <div style={blogStyle} className="summary">
-      <div onClick={() => setVisible(!visible)}>
-        {blog.title} {blog.author} <br />
-      </div>
-      <div className="details">
-        <a href={blog.url}>{blog.url}</a> <br />
-        {blog.likes} likes
-        <button onClick={handleLikePress}>
+    <div className="blogitem">
+      <div style={blogStyle} className="summary">
+        <div onClick={() => setVisible(!visible)}>
+          {blog.title} {blog.author} <br />
+        </div>
+        <div className="details">
+          <a href={blog.url}>{blog.url}</a> <br />
+          {blog.likes} likes
+          <button onClick={handleLikePress}>
           like
-        </button> <br />
+          </button> <br />
         added by {blog.user.name} <br />
-        <button style={removeButtonVisible} onClick={handleRemove}>
+          <button style={removeButtonVisible} onClick={handleRemove}>
           remove
-        </button>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
   )
 }
 

@@ -24,5 +24,5 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-    console.error = originalError
-}) 
+  console.error = originalError
+})

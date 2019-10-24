@@ -2,14 +2,14 @@ import blogService from '../services/blogs'
 
 const reducer = (state = null, action) => {
   switch (action.type) {
-    case 'SET_USER':
-      return action.data
-    case 'USER_LOGIN':
-      return action.data
-    case 'USER_LOGOUT':
-      return null
-    default:
-      return state
+  case 'SET_USER':
+    return action.data
+  case 'USER_LOGIN':
+    return action.data
+  case 'USER_LOGOUT':
+    return null
+  default:
+    return state
   }
 }
 
@@ -25,7 +25,7 @@ export const setUser = () => {
         data: user
       })
     }
-  }  
+  }
 }
 
 export const handleUserLogout = () => {

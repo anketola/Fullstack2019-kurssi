@@ -4,21 +4,21 @@ import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
 
 const UsersView = (props) => {
-  
-    const userItem = (user) => {
-      return(
-        <tr key={user.id}>
-          <td>
-            <Link to={`${props.path}/${user.id}`}>{user.name}</Link>
-          </td>
-          <td>
-            {user.blogs.length}
-          </td>
-        </tr>
-      )
-    }
-  
-    return (
+
+  const userItem = (user) => {
+    return(
+      <tr key={user.id}>
+        <td>
+          <Link to={`${props.path}/${user.id}`}>{user.name}</Link>
+        </td>
+        <td>
+          {user.blogs.length}
+        </td>
+      </tr>
+    )
+  }
+
+  return (
     <div>
       <h2>Users</h2>
       <Table striped>
@@ -35,10 +35,10 @@ const UsersView = (props) => {
 }
 
 const mapStateToProps = state => {
-    return {
-      users: state.users
-    }
+  return {
+    users: state.users
   }
+}
 
 const ConnectedUsersView = connect(mapStateToProps, null)(UsersView)
 

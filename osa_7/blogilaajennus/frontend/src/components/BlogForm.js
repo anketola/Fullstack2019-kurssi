@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Button} from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
 const BlogForm = ({
   handleSubmit,

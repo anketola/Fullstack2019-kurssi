@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import { initializeBlogs, addNewBlog } from './reducers/blogReducer'
 import { initializeAllUsers } from './reducers/allUsersReducer'
 import { setUser, handleUserLogout } from './reducers/authenticationReducer'
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { Container, Button, Jumbotron, Navbar } from 'react-bootstrap'
 
 
@@ -25,7 +25,7 @@ const App = (props) => {
   const blogTitle = useField('text')
   const blogAuthor = useField('text')
   const blogUrl = useField('text')
- 
+
   const blogFormRef = React.createRef()
 
   const padding = { padding : 5 }
@@ -57,7 +57,7 @@ const App = (props) => {
       username.reset()
       password.reset()
       props.changeNotification('Logged in successfully', 'notification')
-      } catch (exception) {
+    } catch (exception) {
       props.changeNotification('wrong username or password', 'error')
     }
   }
@@ -82,22 +82,22 @@ const App = (props) => {
     props.addNewBlog(newBlogObject)
     props.changeNotification(`a new blog ${newBlogObject.title} by ${newBlogObject.author} has been successfully added`, 'notification')
   }
-  
+
   if (props.user === null) {
     return (
       <Container>
-      <Jumbotron>
-        <h2>Blogs application</h2>
-      </Jumbotron>
-      <div className="loginarea">
-        <h2>Log in to application</h2>
-        <Notification />
-        <LoginForm
-          handleSubmit={handleLogin}
-          username={username.withoutReset()}
-          password={password.withoutReset()}
-        />
-      </div>
+        <Jumbotron>
+          <h2>Blogs application</h2>
+        </Jumbotron>
+        <div className="loginarea">
+          <h2>Log in to application</h2>
+          <Notification />
+          <LoginForm
+            handleSubmit={handleLogin}
+            username={username.withoutReset()}
+            password={password.withoutReset()}
+          />
+        </div>
       </Container>
     )
   }
@@ -108,39 +108,39 @@ const App = (props) => {
         <h2>Blogs application</h2>
       </Jumbotron>
       <Router>
-      <Navbar collapseOnSelect expand="lg" bg="light" variant="dark">>
+        <Navbar collapseOnSelect expand="lg" bg="light" variant="dark">>
           <Link style={padding} to="/">Blogs</Link>
           <Link style={padding} to="/users">Users</Link>
-      </Navbar>
-      <span>Logged in as <strong>{props.user.name}</strong>  <Button variant="btn btn-danger" onClick={handleLogout}>
+        </Navbar>
+        <span>Logged in as <strong>{props.user.name}</strong>  <Button variant="btn btn-danger" onClick={handleLogout}>
           logout
         </Button></span>
-      <Notification />
+        <Notification />
         <Route exact path="/" render={() =>
-            <div>  
-              <h2>create new</h2>
+          <div>
+            <h2>create new</h2>
 
-              <Togglable buttonLabel='new blog' ref={blogFormRef}>
-                <BlogForm
-                  handleSubmit={addBlog}
-                  blogTitle={blogTitle.withoutReset()}
-                  blogAuthor={blogAuthor.withoutReset()}
-                  blogUrl={blogUrl.withoutReset()}
-                />
-              </Togglable>
+            <Togglable buttonLabel='new blog' ref={blogFormRef}>
+              <BlogForm
+                handleSubmit={addBlog}
+                blogTitle={blogTitle.withoutReset()}
+                blogAuthor={blogAuthor.withoutReset()}
+                blogUrl={blogUrl.withoutReset()}
+              />
+            </Togglable>
 
-              <div className="bloglistings">
+            <div className="bloglistings">
               {props.blogs.sort((a, b) => b.likes - a.likes).map(blog =>
                 <Blog key={blog.id} blog={blog} user={props.user}/>
               )}
-              </div>
             </div>
-      } />
-    <Route exact path="/users" render={({ match }) => <UsersView path={match.path}/>} />
-    <Route exact path="/users/:id" render={({ match }) => <UserView path={match.path}
-        user={props.users.find(user => user.id === match.params.id)}/>} />
+          </div>
+        } />
+        <Route exact path="/users" render={({ match }) => <UsersView path={match.path}/>} />
+        <Route exact path="/users/:id" render={({ match }) => <UserView path={match.path}
+          user={props.users.find(user => user.id === match.params.id)}/>} />
       </Router>
-      </Container>
+    </Container>
   )
 }
 

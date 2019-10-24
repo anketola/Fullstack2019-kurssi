@@ -4,19 +4,19 @@ import Blog from './Blog'
 
 test('by default only the summary information is shown', () => {
   const blog = {
-      title: 'Test Blog',
-      author: 'Random Author Guy',
-      url: 'wwwplace',
-      likes: 10,
-      user: {
-        username: 'Jimmy Jester'
-      }
+    title: 'Test Blog',
+    author: 'Random Author Guy',
+    url: 'wwwplace',
+    likes: 10,
+    user: {
+      username: 'Jimmy Jester'
+    }
   }
 
   const user = {
     username: 'Timmy Tester'
   }
-  
+
   const blogs = []
   const dummyFunction = () => {}
 
@@ -35,19 +35,19 @@ test('by default only the summary information is shown', () => {
 
 test('after clicking all information is shown', () => {
   const blog = {
-      title: 'Test Blog',
-      author: 'Random Author Guy',
-      url: 'wwwplace',
-      likes: 10,
-      user: {
-        username: 'Jimmy Jester',
-      }
+    title: 'Test Blog',
+    author: 'Random Author Guy',
+    url: 'wwwplace',
+    likes: 10,
+    user: {
+      username: 'Jimmy Jester',
+    }
   }
 
   const user = {
     username: 'Timmy Tester'
   }
-  
+
   const blogs = []
   const dummyFunction = () => {}
 

@@ -1,12 +1,12 @@
 const notifyReducer = (state = stateAtStart, action) => {
   switch (action.type) {
-    case 'SET_NOTIFICATION':
-      return action.notification
-    case 'RESET_NOTIFICATION':
-      return ''
-    default:
-      return state
-    }
+  case 'SET_NOTIFICATION':
+    return action.notification
+  case 'RESET_NOTIFICATION':
+    return ''
+  default:
+    return state
+  }
 }
 
 const stateAtStart = {
@@ -20,7 +20,7 @@ export const resetNotification = () => {
       type: 'RESET_NOTIFICATION',
       notification: stateAtStart
     })
-  }  
+  }
 }
 
 
@@ -36,8 +36,8 @@ export const changeNotification = (message, etype) => {
     })
     setTimeout(() => {
       dispatch({
-          type: 'RESET_NOTIFICATION'
-        })
+        type: 'RESET_NOTIFICATION'
+      })
     }, 5000)
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
-import { 
-  render, waitForElement 
+import {
+  render, waitForElement
 } from '@testing-library/react'
 jest.mock('./services/__mocks__/blogs')
 import App from './App'
@@ -14,12 +14,12 @@ describe('<App />', () => {
 
     await waitForElement(
       () => component.getByText('login')
-    ) 
+    )
     //component.debug()
     expect(component.container.querySelector('.loginarea')).toBeDefined()
     const blogs = component.container.querySelector('.blogitem')
     expect(blogs).toBe(null)
-    
+
   })
 
   /* test('if user is logged, blogs are visible', async ()  => {
@@ -28,9 +28,9 @@ describe('<App />', () => {
       token: '1231231214',
       name: 'Donald Tester'
     }
-    
+
     localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-    
+
     const component = render(
       <App />
     )
@@ -38,7 +38,7 @@ describe('<App />', () => {
     //component.debug()
     await waitForElement(
       () => component.container.querySelector('.bloglistings')
-    
+
     )
     component.debug()
     const blogs = component.container.querySelector('.blogitem')

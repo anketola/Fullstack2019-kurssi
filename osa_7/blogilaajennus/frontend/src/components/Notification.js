@@ -2,18 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const Notification = (props) => {
-  console.log(props)  
+  console.log(props)
   const message = props.notification.message
   const type = props.notification.etype
 
-    if (message === '') {
-      return null
-    } else {
-      return (
-        <div className={type}>
-          {message}
-        </div>
-      )
+  if (message === '') {
+    return null
+  } else {
+    return (
+      <div className={type}>
+        {message}
+      </div>
+    )
   }
 }
 

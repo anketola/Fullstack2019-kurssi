@@ -10,7 +10,7 @@ test('renders title, author and likes', () => {
   }
 
   const tempClickHandler = () => {
-  
+
   }
 
   const component = render(
@@ -46,5 +46,5 @@ test('function called twice when clicked twice', () => {
   fireEvent.click(button)
 
   expect(mockHandler.mock.calls.length).toBe(2)
-  
+
 })

@@ -13,9 +13,9 @@ export const useField = (type) => {
 
   const withoutReset = () => {
     return {
-    type,
-    value,
-    onChange,
+      type,
+      value,
+      onChange,
     }
   }
 
