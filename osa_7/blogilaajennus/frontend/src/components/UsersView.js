@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const UsersView = (props) => {
   
@@ -20,7 +21,7 @@ const UsersView = (props) => {
     return (
     <div>
       <h2>Users</h2>
-      <table>
+      <Table striped>
         <tbody>
           <tr>
             <td><strong>name</strong></td>
@@ -28,7 +29,7 @@ const UsersView = (props) => {
           </tr>
           {props.users.map(user => userItem(user))}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }

@@ -16,6 +16,8 @@ import { initializeBlogs, addNewBlog } from './reducers/blogReducer'
 import { initializeAllUsers } from './reducers/allUsersReducer'
 import { setUser, handleUserLogout } from './reducers/authenticationReducer'
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import { Container, Button, Jumbotron, Navbar } from 'react-bootstrap'
+
 
 const App = (props) => {
   const username = useField('username')
@@ -83,6 +85,10 @@ const App = (props) => {
   
   if (props.user === null) {
     return (
+      <Container>
+      <Jumbotron>
+        <h2>Blogs application</h2>
+      </Jumbotron>
       <div className="loginarea">
         <h2>Log in to application</h2>
         <Notification />
@@ -92,24 +98,24 @@ const App = (props) => {
           password={password.withoutReset()}
         />
       </div>
+      </Container>
     )
   }
 
   return (
-    <div class="container">
+    <Container>
+      <Jumbotron>
+        <h2>Blogs application</h2>
+      </Jumbotron>
       <Router>
-      
-      
-      <Notification />
-
-       <div>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="dark">>
           <Link style={padding} to="/">Blogs</Link>
           <Link style={padding} to="/users">Users</Link>
-          {props.user.name} logged in <button onClick={handleLogout}>
+      </Navbar>
+      <span>Logged in as <strong>{props.user.name}</strong>  <Button variant="btn btn-danger" onClick={handleLogout}>
           logout
-        </button>
-        </div>
-        <h2>blogs</h2>
+        </Button></span>
+      <Notification />
         <Route exact path="/" render={() =>
             <div>  
               <h2>create new</h2>
@@ -134,7 +140,7 @@ const App = (props) => {
     <Route exact path="/users/:id" render={({ match }) => <UserView path={match.path}
         user={props.users.find(user => user.id === match.params.id)}/>} />
       </Router>
-  </div>
+      </Container>
   )
 }
 
