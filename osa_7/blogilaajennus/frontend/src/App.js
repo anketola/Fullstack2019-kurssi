@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import { initializeBlogs, addNewBlog } from './reducers/blogReducer'
 import { initializeAllUsers } from './reducers/allUsersReducer'
 import { setUser, handleUserLogout } from './reducers/authenticationReducer'
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
 const App = (props) => {
   const username = useField('username')
@@ -25,6 +25,8 @@ const App = (props) => {
   const blogUrl = useField('text')
  
   const blogFormRef = React.createRef()
+
+  const padding = { padding : 5 }
 
   useEffect(() => {
     props.initializeBlogs()
@@ -95,19 +97,19 @@ const App = (props) => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Router>
+      
       
       <Notification />
-      <p>
-        {props.user.name} logged in
-        <button onClick={handleLogout}>
+
+       <div>
+          <Link style={padding} to="/">Blogs</Link>
+          <Link style={padding} to="/users">Users</Link>
+          {props.user.name} logged in <button onClick={handleLogout}>
           logout
         </button>
-      </p>
-
-
-      <Router>
-        
+        </div>
+        <h2>blogs</h2>
         <Route exact path="/" render={() =>
             <div>  
               <h2>create new</h2>
@@ -130,7 +132,7 @@ const App = (props) => {
       } />
     <Route exact path="/users" render={({ match }) => <UsersView path={match.path}/>} />
     <Route exact path="/users/:id" render={({ match }) => <UserView path={match.path}
-        user={props.users.find(user => user.id == match.params.id)}/>} />
+        user={props.users.find(user => user.id === match.params.id)}/>} />
       </Router>
   </div>
   )
