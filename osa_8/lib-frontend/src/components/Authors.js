@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 
 const Authors = (props) => {
+  console.log(props.listing)
   if (!props.show) {
     return null
   }
-  const authors = []
+ 
+  if (props.listing.loading) {
+    return <div>loading...</div>
+  }
+
+  const authors = props.listing.data.allAuthors 
 
   return (
     <div>
