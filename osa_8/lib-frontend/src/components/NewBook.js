@@ -16,6 +16,10 @@ const NewBook = (props) => {
 
     console.log('add book...')
 
+    await props.addBook({
+      variables: { title, author, published: parseInt(published), genres }
+    })
+
     setTitle('')
     setPublished('')
     setAuhtor('')
