@@ -6,6 +6,18 @@ import { gql } from 'apollo-boost'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
 
+const UPDATE_BIRTHYEAR = gql`
+mutation updateBirthyear($name: String!, $birthyear: Int!) {
+  editAuthor(
+    name: $name
+    setBornTo: $birthyear
+  ) {
+    name
+    born
+  }
+}
+`
+
 const CREATE_BOOK = gql`
 mutation createNewBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
   addBook(
@@ -22,8 +34,6 @@ mutation createNewBook($title: String!, $author: String!, $published: Int!, $gen
   }
 }
 `
-
-
 const ALL_AUTHORS = gql`
 {
   allAuthors  {
@@ -59,6 +69,11 @@ const App = () => {
     refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
   })
 
+  const [editBirthyear] = useMutation(UPDATE_BIRTHYEAR, {
+    onError: handleError,
+    refetchQueries: [{ query: ALL_AUTHORS }]
+  })
+
   return (
     <div>
       <div>
@@ -68,7 +83,7 @@ const App = () => {
       </div>
 
       <Authors
-        show={page === 'authors'} result={allAuthors}
+        show={page === 'authors'} result={allAuthors} editBirthyear={editBirthyear}
       />
 
       <Books
