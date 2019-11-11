@@ -5,7 +5,7 @@ const Authors = (props) => {
   const [name, setName] = useState('')
   const [year, setYear] = useState('')
 
-  console.log(props.listing)
+  console.log(props.result)
   if (!props.show) {
     return null
   }
