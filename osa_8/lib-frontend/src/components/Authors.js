@@ -6,11 +6,11 @@ const Authors = (props) => {
     return null
   }
  
-  if (props.listing.loading) {
+  if (props.result.loading) {
     return <div>loading...</div>
   }
 
-  const authors = props.listing.data.allAuthors 
+  const authors = props.result.data.allAuthors 
 
   return (
     <div>
