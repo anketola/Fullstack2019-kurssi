@@ -95,12 +95,24 @@ const resolvers = {
     addBook: async (root, args, context) => {
       let author = await Author.findOne({ name: args.author })
       if (!author) {
+        try {
         author = new Author({ name: args.author })
         await author.save()
+        } catch (error) {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
         }
+      }
+      try {
       const book = new Book({ ...args, author: author._id })
       await book.save()
       return book
+    } catch (error) {
+      throw new UserInputError(error.message, {
+        invalidArgs: args,
+      })
+      }
     },
     editAuthor: async (root, args) => {
       const authorexists = await Author.findOne({ name: args.name })
