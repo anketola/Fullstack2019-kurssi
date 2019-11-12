@@ -65,24 +65,25 @@ const resolvers = {
       return authorsall
     },
     allBooks: async (root, args) => {
+      console.log(args)
       /*if (args.author && !args.genre) {
         return books.filter(b => b.author === args.author)
       }
+      */
       if (!args.author && args.genre) {
-        return books.filter(b => b.genres.includes(args.genre))
+        return await Book.find({ genres: { $in: args.genre }})
       }
       if (args.author && args.genre) {
-        return books.filter(b => b.author === args.author).filter(c => c.genres.includes(args.genre))
+        return await Book.find({ genres: { $in: args.genre }})
       }
-      */
+      
       return await Book.find({})
     }
   },
   Author: {
     bookCount: async (root) => {
-      return Author.collection.countDocuments() // temp
+      return Book.collection.countDocuments({ author: root._id})
     }
-    // bookCount: (root) => books.filter(author => author.author === root.name).length
   },
   Book: {
     author: async root => {
@@ -101,13 +102,13 @@ const resolvers = {
       await book.save()
       return book
     },
-    editAuthor: (root, args) => {
-      const authorexists = authors.find(a => a.name === args.name)
+    editAuthor: async (root, args) => {
+      const authorexists = await Author.findOne({ name: args.name })
       if (!authorexists) {
         return null
       }
       authorexists.born = args.setBornTo
-      authors = authors.map(author => author.name === args.name ? authorexists : author)
+      await authorexists.save()
       return authorexists
     }
   }
