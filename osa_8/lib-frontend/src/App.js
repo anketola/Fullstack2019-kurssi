@@ -112,14 +112,29 @@ const App = () => {
 
   const handleError = (error) => { }
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => 
+      set.map(p => p.id).includes(object.id)  
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks : dataInStore.allBooks.concat(addedBook) }
+      })
+    }   
+  }
+
   const [login] = useMutation(LOGIN, {
     onError: handleError
   })
 
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
-      window.alert('New book added!')
+      const addedBook = subscriptionData.data.bookAdded
+      window.alert(`New book ${addedBook.title} added`)
       console.log(subscriptionData)
+      updateCacheWith(addedBook)
     }
   })
 
@@ -132,7 +147,10 @@ const App = () => {
 
   const [addBook] = useMutation(CREATE_BOOK, {
     onError: handleError,
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }]
+    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    update: (store, response) => {
+      updateCacheWith(response.data.addBook)
+    }
   })
 
   const [editBirthyear] = useMutation(UPDATE_BIRTHYEAR, {
