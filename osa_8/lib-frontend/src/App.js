@@ -56,6 +56,14 @@ const ALL_BOOKS = gql`
   }
 }
 `
+const ALL_GENRES = gql`
+{
+  allBooks {
+    genres
+  }
+}
+`
+
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password)  {
@@ -69,9 +77,11 @@ const LOGIN = gql`
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
+  const [genre, setGenre] = useState('')
   
   const allAuthors = useQuery(ALL_AUTHORS)
-  const allBooks = useQuery(ALL_BOOKS)
+  const allBooks = useQuery(ALL_BOOKS, { variables: { genre }})
+  const allGenres = useQuery(ALL_GENRES)
   const client = useApolloClient()
 
   const handleError = (error) => { }
@@ -112,7 +122,7 @@ const App = () => {
       />
 
       <Books
-        show={page === 'books'} result={allBooks}
+        show={page === 'books'} result={allBooks} allGenres={allGenres} genre={genre} setGenre={genre => setGenre(genre)}
       />
 
       <LoginForm
@@ -137,7 +147,7 @@ const App = () => {
       />
 
       <Books
-        show={page === 'books'} result={allBooks}
+        show={page === 'books'} result={allBooks} allGenres={allGenres} genre={genre} setGenre={genre => setGenre(genre)}
       />
 
       <NewBook
