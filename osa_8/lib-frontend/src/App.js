@@ -5,6 +5,7 @@ import NewBook from './components/NewBook'
 import { gql } from 'apollo-boost'
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import LoginForm from './components/LoginForm'
+import Recommendations from './components/Recommendations'
 
 const UPDATE_BIRTHYEAR = gql`
 mutation updateBirthyear($name: String!, $birthyear: Int!) {
@@ -63,6 +64,14 @@ const ALL_GENRES = gql`
   }
 }
 `
+const USER_FAV = gql`
+{
+  me {
+    favoriteGenre
+  }
+}
+`
+
 
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
@@ -82,6 +91,7 @@ const App = () => {
   const allAuthors = useQuery(ALL_AUTHORS)
   const allBooks = useQuery(ALL_BOOKS, { variables: { genre }})
   const allGenres = useQuery(ALL_GENRES)
+  const userFav = useQuery(USER_FAV)
   const client = useApolloClient()
 
   const handleError = (error) => { }
@@ -138,6 +148,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button onClick={() => setPage('recommendations')}>recommendations</button>
         <button onClick={logout}>logout</button>
 
       </div>
@@ -152,6 +163,10 @@ const App = () => {
 
       <NewBook
         show={page === 'add'} addBook={addBook}
+      />
+
+      <Recommendations
+        show={page === 'recommendations'} result={allBooks} userFav={userFav}
       />
 
     </div>
