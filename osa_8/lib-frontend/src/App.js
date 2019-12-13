@@ -3,7 +3,7 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import { gql } from 'apollo-boost'
-import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
+import { useQuery, useMutation, useSubscription, useApolloClient } from '@apollo/react-hooks'
 import LoginForm from './components/LoginForm'
 import Recommendations from './components/Recommendations'
 
@@ -44,18 +44,26 @@ const ALL_AUTHORS = gql`
   }
 }
 `
-const ALL_BOOKS = gql`
-{
-  allBooks  {
-    title
+
+const BOOK_DETAILS = gql`
+fragment BookDetails on Book {
+  title
     author {
       name
       born
     }
     published
     genres
+}
+`
+
+const ALL_BOOKS = gql`
+{
+  allBooks  {
+    ...BookDetails
   }
 }
+${BOOK_DETAILS}
 `
 const ALL_GENRES = gql`
 {
@@ -71,7 +79,15 @@ const USER_FAV = gql`
   }
 }
 `
-
+const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+  
+${BOOK_DETAILS}
+`
 
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
@@ -98,6 +114,13 @@ const App = () => {
 
   const [login] = useMutation(LOGIN, {
     onError: handleError
+  })
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      window.alert('New book added!')
+      console.log(subscriptionData)
+    }
   })
 
   const logout = () => {
